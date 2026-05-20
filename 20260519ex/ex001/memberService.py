@@ -35,13 +35,14 @@ def setNewMember(uId, uPw, uMail, uPhone):
                 'uMail': uMail,
                 'uPhone': uPhone
             }
+    
 def isMember(uId):
     if uId in members:
             print(f'{uId}는(은) 이미 사용중 입니다. 다시 확인하세요.')
             return True
     else:
         return False
-
+    
 def printAllMemberInfo(value):
     for key1, value1 in value.items():
                 print(f'{key1}: {value1}')
