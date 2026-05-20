@@ -23,42 +23,77 @@ if DEV_MOD:
             'uPhone': uPhones[n]
         }
 
+# functions START
+def getSelectedMenuNum():
+    selectedMenuNum = int(input('1.회원가입    2.로그인    3.나의 정보 출력     4.모든 회원 정보 출력    99.종료'))
+    return selectedMenuNum
+
+def setNewMember(uId, uPw, uMail, uPhone):
+    members[uId] = {
+                'uId': uId,
+                'uPw': uPw,
+                'uMail': uMail,
+                'uPhone': uPhone
+            }
+def isMember(uId):
+    if uId in members:
+            print(f'{uId}는(은) 이미 사용중 입니다. 다시 확인하세요.')
+            return True
+    else:
+        return False
+
+def printAllMemberInfo(value):
+    for key1, value1 in value.items():
+                print(f'{key1}: {value1}')
+# functions END
+
+
 flag = True
 while flag:
-    selectedMenuNum = int(input('1.회원가입    2.로그인    3.나의 정보 출력     4.모든 회원 정보 출력    99.종료'))
+    
+    userSelectedMunuNum = getSelectedMenuNum()
 
-    if selectedMenuNum == SIGN_UP:              # 1.회원가입
+    if userSelectedMunuNum == SIGN_UP:              # 1.회원가입
         uId = input('Input member ID: ')
-        uPw = input('Input member PW: ')
-        uMail = input('Input member EMAIL: ')
-        uPhone = input('Input member PHONE: ')
+        if not isMember(uId):        # False: 회원이 없는경우(회원가입 진행O)   True: 회원이 있는경우(회원가입 진행X)
+            uPw = input('Input member PW: ')
+            uMail = input('Input member EMAIL: ')
+            while True:
+                if '@' not in uMail:
+                    print('입련한 이메일 주소가 형식에 맞지 않습니다. ')
+                    uMail = input('Input member EMAIL: ')
+                else:
+                    break
 
-        members[uId] = {
-            'uId': uId,
-            'uPw': uPw,
-            'uMail': uMail,
-            'uPhone': uPhone
-        }
+            uPhone = input('Input member PHONE: ')
 
-        print('SIGN-UP SUCCESS!!')
+            setNewMember(uId, uPw, uMail, uPhone)
 
-        if DEV_MOD: print(f'members: {members}')
+            print('SIGN-UP SUCCESS!!')
 
-    elif selectedMenuNum == SIGN_IN:            # 2.로그인 
-        uId = input('Input member ID: ')
-        uPw = input('Input member PW: ')
+            if DEV_MOD: print(f'members: {members}')
 
-        if uId in members:
-            uInfo = members[uId]
-            if uInfo['uPw'] == uPw:
-                print('SIGN-IN SUCCESS!!')
+    elif userSelectedMunuNum == SIGN_IN:            # 2.로그인 
+        signInCount = 1
+        while True:
+            uId = input('Input member ID: ')
+            uPw = input('Input member PW: ')
+
+            if uId in members:
+                uInfo = members[uId]
+                if uInfo['uPw'] == uPw:
+                    print('SIGN-IN SUCCESS!!')
+                else:
+                    print('SIGN-IN FAIL!!')
+                    signInCount += 1
+                    if signInCount > 3:
+                        print('3회 이상 틀렸어요!!')
+                        break
             else:
-                print('SIGN-IN FAIL!!')
-        else:
-            print('존재 하지 않은 ID입니다. 다시 확인하세요.')
+                print('존재 하지 않은 ID입니다. 다시 확인하세요.')
         
 
-    elif selectedMenuNum == PRINT_MY_INFO:      # 3.나의 정보 출력  
+    elif userSelectedMunuNum == PRINT_MY_INFO:      # 3.나의 정보 출력  
         uId = input('Input member ID: ')
         uPw = input('Input member PW: ')
 
@@ -77,13 +112,12 @@ while flag:
         else:
             print('존재 하지 않은 ID입니다. 다시 확인하세요.')
 
-    elif selectedMenuNum == PRINT_ALL_MEMBER_INFO:      # 4.모든 회원 정보 출력
+    elif userSelectedMunuNum == PRINT_ALL_MEMBER_INFO:      # 4.모든 회원 정보 출력
         for key, value in members.items():
             print(f'{key}님의 정보 ----------------')
-            for key1, value1 in value.items():
-                print(f'{key1}: {value1}')
+            printAllMemberInfo(value)
             print('-' * 30)
 
-    elif selectedMenuNum == SYSTEM_SHUTDOWN:    # 99.종료
+    elif userSelectedMunuNum == SYSTEM_SHUTDOWN:    # 99.종료
         flag = False
         print('Good bye~')
