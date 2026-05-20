@@ -9,12 +9,19 @@ DEV_MOD = True
 members = {}            # Database
 
 if DEV_MOD:
-    members['gildong'] = {
-        'uId': 'gildong',
-        'uPw': '1234',
-        'uMail': 'gildong@gmail.com',
-        'uPhone': '010-1234-5678'
-    }
+
+    uIds = ['gildong', 'chanho', 'saeri']
+    uPws = ['1234', '5678', '9012']
+    uMails = ['gildong@gmail.com', 'chanho@naver.com', 'saeri@daum.net']
+    uPhones = ['010-1234-5678', '010-9999-8888', '010-7777-6666']
+
+    for n in range(len(uIds)):      # 3회 반복 ( 0, 1, 2 )
+        members[uIds[n]] = {
+            'uId': uIds[n],
+            'uPw': uPws[n],
+            'uMail': uMails[n],
+            'uPhone': uPhones[n]
+        }
 
 flag = True
 while flag:
@@ -71,7 +78,12 @@ while flag:
             print('존재 하지 않은 ID입니다. 다시 확인하세요.')
 
     elif selectedMenuNum == PRINT_ALL_MEMBER_INFO:      # 4.모든 회원 정보 출력
-        pass
+        for key, value in members.items():
+            print(f'{key}님의 정보 ----------------')
+            for key1, value1 in value.items():
+                print(f'{key1}: {value1}')
+            print('-' * 30)
+
     elif selectedMenuNum == SYSTEM_SHUTDOWN:    # 99.종료
         flag = False
         print('Good bye~')
