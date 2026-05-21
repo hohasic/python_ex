@@ -51,6 +51,7 @@ while flag:
         else:
             print('sign-in fail!! -- ID error')
 
+
     elif menuNum == config.MEMBER_MODIFY:
         print('3.modify')
     elif menuNum == config.MEMBER_DELETE:
