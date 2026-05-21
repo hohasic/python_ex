@@ -1,5 +1,6 @@
 from config_dir.dir import config
 from member import session
+from db import member_db
 
 flag = True
 
@@ -15,6 +16,18 @@ while flag:
 
     if menuNum == config.SIGN_UP:
         print('1.sign-up')
+        uId = input('Please input new member ID: ')
+        uPw = input('Please input new member PW: ')
+        uMail = input('Please input new member MAIL: ')
+        uPhone = input('Please input new member PHONE: ')
+
+        member_db.memberDB[uId] = {
+            'uId': uId,
+            'uId': uId,
+            'uMail': uMail,
+            'uPhone': uPhone
+        }
+
     elif menuNum == config.SIGN_IN:
         print('2.sign-in')
     elif menuNum == config.MEMBER_MODIFY:
