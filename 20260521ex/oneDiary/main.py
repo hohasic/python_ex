@@ -23,7 +23,7 @@ while flag:
 
         member_db.memberDB[uId] = {
             'uId': uId,
-            'uId': uId,
+            'uPw': uPw,
             'uMail': uMail,
             'uPhone': uPhone
         }
