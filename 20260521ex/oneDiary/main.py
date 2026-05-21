@@ -1,6 +1,11 @@
 from config_dir.dir import config
 from member import session
 from db import member_db
+from member import member_dumy
+
+if config.DEV_MOD:
+    member_dumy.memberDumyInit()
+    print(f'memberDB: {member_db.memberDB}')
 
 flag = True
 
@@ -35,6 +40,17 @@ while flag:
 
     elif menuNum == config.SIGN_IN:
         print('2.sign-in')
+        uId = input('Please input member ID: ')
+        uPw = input('Please input member PW: ')
+
+        if uId in member_db.memberDB:
+            if member_db.memberDB[uId]['uPw'] == uPw:
+                print('sign-in success!!')
+            else:
+                print('sign-in fail!! -- PW error')
+        else:
+            print('sign-in fail!! -- ID error')
+
     elif menuNum == config.MEMBER_MODIFY:
         print('3.modify')
     elif menuNum == config.MEMBER_DELETE:
