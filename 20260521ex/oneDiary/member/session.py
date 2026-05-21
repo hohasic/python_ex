@@ -1,1 +1,1 @@
-signInedMemberId = 'gildong'
+signInedMemberId = ''

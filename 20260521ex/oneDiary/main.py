@@ -28,6 +28,11 @@ while flag:
             'uPhone': uPhone
         }
 
+        print('New member sign-up success!!')
+
+        if config.DEV_MOD:
+            print(f'memberDB: {member_db.memberDB}')
+
     elif menuNum == config.SIGN_IN:
         print('2.sign-in')
     elif menuNum == config.MEMBER_MODIFY:
