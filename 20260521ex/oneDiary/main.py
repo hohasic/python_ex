@@ -1,11 +1,13 @@
 from config_dir.dir import config
 from member import session
 from db import member_db
+from db import diary_db
 from member import member_dumy
 
 if config.DEV_MOD:
-    member_dumy.memberDumyInit()
+    member_dumy.dumyInit()
     print(f'memberDB: {member_db.memberDB}')
+    print(f'diaryDB: {diary_db.diaryDB}')
 
 flag = True
 
@@ -14,10 +16,10 @@ while flag:
     menuNum = ''
     if session.signInedMemberId == '':
         # sign out 상태
-        menuNum = int(input('1.sign-up    2.sign-in    99.end'))
+        menuNum = int(input('1.sign-up    2.sign-in    6.write    7.read    99.end'))
     else:
         # sign in 상태
-        menuNum = int(input('3.modify    5.sign-out    4.delete    99.end'))
+        menuNum = int(input('3.modify    5.sign-out    4.delete    6.write    7.read    99.end'))
 
     if menuNum == config.SIGN_UP:
         print('1.sign-up')
@@ -37,6 +39,10 @@ while flag:
 
         if config.DEV_MOD:
             print(f'memberDB: {member_db.memberDB}')
+
+        diary_db.diaryDB[uId] = []
+        if config.DEV_MOD:
+            print(f'diaryDB: {diary_db.diaryDB}')
 
     elif menuNum == config.SIGN_IN:
         print('2.sign-in')
@@ -86,6 +92,17 @@ while flag:
 
     elif menuNum == config.MEMBER_DELETE:
         print('4.delete')
+        '''
+         - 현재 로그인 되어 있는 회원의 ID를 session.signInedMemberId에서 가져와서
+         - 해당하는 회원의 정보를 member_db.memberDB에 삭제 합니다.
+        '''
+        currentSignInedMemberID = session.signInedMemberId
+        del member_db.memberDB[currentSignInedMemberID]
+
+        print('Member info deleted!!')
+        session.signInedMemberId = ''
+        if config.DEV_MOD: print(f'member_db.memberDB: {member_db.memberDB}')
+
     elif menuNum == config.SYSTEM_OUT:
         print('99.end')
         flag = False
@@ -98,3 +115,17 @@ while flag:
         '''
         print('sign-out success!!')
         session.signInedMemberId = ''
+
+    elif menuNum == config.DIARY_WRITE:
+        print('6.write')
+
+        if session.signInedMemberId == '':
+            print('Sorry! Please sign-in!!')
+
+        else:
+            diaryTxt = input('10글자 이하의 짧은 일기를 작성하세요. ')
+
+
+    elif menuNum == config.DIARY_READ:
+        print('7.read')
+        pass
