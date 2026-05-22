@@ -3,6 +3,7 @@ from member import session
 from db import member_db
 from db import diary_db
 from member import member_dumy
+import copy
 
 if config.DEV_MOD:
     member_dumy.dumyInit()
@@ -123,9 +124,26 @@ while flag:
             print('Sorry! Please sign-in!!')
 
         else:
-            diaryTxt = input('10글자 이하의 짧은 일기를 작성하세요. ')
-
+            while True:
+                diaryTxt = input('10글자 이하의 짧은 일기를 작성하세요. ')
+                if len(diaryTxt) > 10:
+                    print(f'10글자 초과 했어요.({len(diaryTxt)})')
+                else:
+                    diary_db.diaryDB[session.signInedMemberId].append(diaryTxt)
+                    if config.DEV_MOD: print(f'diary_db.diaryDB: {diary_db.diaryDB}')
+                    break
 
     elif menuNum == config.DIARY_READ:
         print('7.read')
-        pass
+
+        if session.signInedMemberId == '':
+            print('Sorry! Please sign-in!!')
+
+        else:
+            currentSignInedMemberID = session.signInedMemberId
+            myDiaries = diary_db.diaryDB[currentSignInedMemberID]
+
+            deepCopyedDiaries = copy.deepcopy(myDiaries)
+            deepCopyedDiaries.reverse()     # 순서 바뀐다.
+            for idx, diaryTxt in enumerate(deepCopyedDiaries):
+                print(f'({idx+1}): {diaryTxt}')
