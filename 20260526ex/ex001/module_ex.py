@@ -93,3 +93,6 @@ gt = time.gmtime()      # GMT 시간
 print(f'gt: {gt}')
 
 print(f'gt.tm_hour: {gt.tm_hour}')  # 시간
+
+print(f'시::분::초 --> {time.strftime('%H::%M::%S', time.localtime())}')
+print(f'년:월:일 시:분:초 --> {time.strftime('%Y:%m:%d %H:%M:%S', time.localtime())}')
